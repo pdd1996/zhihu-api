@@ -11,15 +11,23 @@ router.get('/', (ctx) => {
 });
 
 usersRouter.get('/', (ctx) => {
-  ctx.body = '这是用户列表'
+  ctx.body = [{ name: '张三' }, { name: '李四' }];
 });
 
 usersRouter.post('/', (ctx) => {
-  ctx.body = '这是创建用户接口'
+  ctx.body = { name: '张三' };
 });
 
 usersRouter.get('/:id', (ctx) => {
-  ctx.body = `这是用户 ${ctx.params.id}`;
+  ctx.body = { name: '张三' };
+})
+
+usersRouter.put('/:id', (ctx) => {
+  ctx.body = { name: '张三 法外狂徒' };
+})
+
+usersRouter.delete('/:id', (ctx) => {
+  ctx.status = 204;
 })
 
 app.use(router.routes());
