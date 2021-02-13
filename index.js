@@ -1,22 +1,28 @@
 const Koa = require('koa');
+const Router = require('koa-router');
 const app = new Koa();
+const router = new Router();
+// 前缀方法
+const usersRouter = new Router({ prefix: '/users' })
 
-app.use(async (ctx) => {
-  if(ctx.url === '/') {
-    ctx.body = '这是主页';
-  } else if (ctx.url === '/users') {
-    if(ctx.method === 'GET') {
-      ctx.body = '这是用户列表页';
-    } else if(ctx.method === 'POST') {
-      ctx.body = '创建用户';
-    } else {
-      ctx.status = 405;
-    }
-  } else if (ctx.url.match(/\/users\/\w+/)){
-    const userId = ctx.url.match(/\/users\/(\w+)/)[1];
-    ctx.body = `这是用户 ${userId}`;
-  }
-  ctx.status = 404;
+
+router.get('/', (ctx) => {
+  ctx.body = '这是主页'
+});
+
+usersRouter.get('/', (ctx) => {
+  ctx.body = '这是用户列表'
+});
+
+usersRouter.post('/', (ctx) => {
+  ctx.body = '这是创建用户接口'
+});
+
+usersRouter.get('/:id', (ctx) => {
+  ctx.body = `这是用户 ${ctx.params.id}`;
 })
+
+app.use(router.routes());
+app.use(usersRouter.routes());
 
 app.listen(3000);
